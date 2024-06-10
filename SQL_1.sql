@@ -271,3 +271,14 @@ FROM employees
 ORDER BY salary DESC,
          first_name ASC
 
+--- SELECT DISTINCT ---
+
+SELECT salary FROM employees
+ORDER BY salary DESC -- Total 40 rows
+
+SELECT DISTINCT salary FROM employees
+ORDER BY salary ASC -- Total 33 rows
+
+SELECT phone_number FROM employees -- Total 40 rows and there are many NULL values
+
+SELECT DISTINCT phone_number FROM employees  -- total 35 and we have one NULL value

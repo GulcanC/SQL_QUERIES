@@ -15,4 +15,7 @@ SELECT, AS
 
 ORDER BY ASC, DESC
 
+SELECT DISTINCT => to remove duplicate rows from a result set
+
+NULL values
 
