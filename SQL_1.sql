@@ -340,6 +340,43 @@ WHERE hire_date >= '1998-05-05'
 ORDER BY hire_date ASC
 
 -- YEAR FUNCTION ---
---- Select hire_date if the year is 1998 --
+--- Select hire_date if the year is 1998 or 2000 --
 
-SELECT employee_id, first_name, last_name, hire_date
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE YEAR(hire_date) = 1998 OR YEAR(hire_date) = 2000
+ORDER BY hire_date ASC
+
+--- BETWEEN CLAUSE ---
+ SELECT employee_id, first_name, last_name, hire_date FROM employees
+ WHERE hire_date BETWEEN  '1998-01-01' AND '2000-01-01' 
+ ORDER BY hire_date DESC
+
+
+--- COMPERASION OPERATORS, equal, not equal to, greater than, greater than or equal to, less than, less than or equal to ---
+
+SELECT * FROM employees
+
+
+SELECT first_name, salary, job_id FROM employees
+WHERE job_id = 13
+ORDER BY salary ASC
+
+SELECT first_name, salary, job_id FROM employees
+WHERE job_id <> 16 AND job_id <> 19
+ORDER BY job_id DESC
+
+SELECT  first_name, salary, job_id FROM employees
+WHERE job_id > 17
+ORDER BY job_id DESC
+
+SELECT  first_name, salary, job_id FROM employees
+WHERE job_id >= 17
+ORDER BY job_id DESC
+
+SELECT  first_name, salary, job_id FROM employees
+WHERE job_id < 10
+ORDER BY job_id DESC
+
+SELECT  first_name, salary, job_id FROM employees
+WHERE job_id <= 10
+ORDER BY job_id DESC
