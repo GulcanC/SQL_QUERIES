@@ -255,3 +255,19 @@ INSERT INTO dependents(dependent_id,first_name,last_name,relationship,employee_i
 INSERT INTO dependents(dependent_id,first_name,last_name,relationship,employee_id) VALUES (27,'Julia','Raphaely','Child',114);
 INSERT INTO dependents(dependent_id,first_name,last_name,relationship,employee_id) VALUES (28,'Woody','Russell','Child',145);
 INSERT INTO dependents(dependent_id,first_name,last_name,relationship,employee_id) VALUES (29,'Alec','Partners','Child',146);
+
+--- SELECT STATEMENT ---
+
+SELECT * FROM employees
+
+--- AS STATEMENT ---
+
+SELECT first_name AS 'NAME', last_name AS 'LAST NAME', email AS 'EMAIL', salary*2 AS 'NEW SALARY' FROM employees
+
+--- ORDER BY ---
+
+SELECT first_name AS 'NAME', salary AS 'SALARY' 
+FROM employees 
+ORDER BY salary DESC,
+         first_name ASC
+
