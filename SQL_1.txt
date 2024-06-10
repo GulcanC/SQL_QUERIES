@@ -1,4 +1,10 @@
 
 We will create the data model in the picture (SQL_1_IMAGE)
 
+Important Excercice to learn SQL, MYSQL, ORACLE
 
+https://www.sqltutorial.org/sql-check-constraint/
+
+https://www.sqltutorial.org/sql-sample-database/
+
+CREATE TABLE, PRIMARY KEY, FOREIGN KEY, DECIMAL(8,2), ON DELETE CASCADE ON UPDATE, AUTO INCREMENT,
