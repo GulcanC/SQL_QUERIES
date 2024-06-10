@@ -1,0 +1,4 @@
+
+We will create the data model in the picture (SQL_1_IMAGE)
+
+
