@@ -271,7 +271,7 @@ FROM employees
 ORDER BY salary DESC,
          first_name ASC
 
---- SELECT DISTINCT ---
+--- SELECT DISTINCT | NULL VALUES ---
 
 SELECT salary FROM employees
 ORDER BY salary DESC -- Total 40 rows
@@ -282,3 +282,47 @@ ORDER BY salary ASC -- Total 33 rows
 SELECT phone_number FROM employees -- Total 40 rows and there are many NULL values
 
 SELECT DISTINCT phone_number FROM employees  -- total 35 and we have one NULL value
+
+--- SQL LIMIT OFFSET ---
+
+SELECT employee_id, first_name, last_name FROM employees ORDER BY first_name
+
+-- Without using OFFSET, the limit starts from the beginning like Adam
+SELECT employee_id, first_name, last_name FROM employees ORDER BY first_name LIMIT 6
+
+-- But with OFFSET the limit skips the first 3 rows, then it select next 6 rows. 
+SELECT employee_id, first_name, last_name FROM employees ORDER BY first_name LIMIT 6 OFFSET 3
+
+-- The short version of the LIMIT OFFSET, here 3 is OFFSET 
+SELECT employee_id, first_name, last_name FROM employees ORDER BY first_name LIMIT 3, 6
+
+-- Use SQL LIMIT to get the top N rows with the highest or lowest value, the highest salary is 24000
+
+SELECT employee_id, salary, first_name, last_name FROM employees
+ORDER BY salary DESC
+
+-- to get the first highest salary => 24000
+SELECT employee_id, salary, first_name, last_name FROM employees
+ORDER BY salary DESC
+LIMIT 1
+
+-- to get the second highest salary => 17000
+
+SELECT employee_id, salary, first_name, last_name FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1
+
+-- to get the third highest salary => 17000, here is the same but we can use subquery
+
+SELECT employee_id, salary, first_name, last_name FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 2
+
+SELECT employee_id, first_name, last_name, salary FROM employees
+WHERE salary = (SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1,1)
+
+-- OR to get the minimum salary => 2500
+
+SELECT employee_id, salary, first_name, last_name FROM employees
+ORDER BY salary ASC
+LIMIT 1
