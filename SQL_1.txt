@@ -1,4 +1,6 @@
 
+MYSQL SERVER
+
 We will create the data model in the picture (SQL_1_IMAGE)
 
 Important Excercice to learn SQL, MYSQL, ORACLE
@@ -20,4 +22,10 @@ SELECT DISTINCT => to remove duplicate rows from a result set
 NULL values
 
 SQL LIMIT OFFSET => To limit the number of rows returned, OFFSET is optional, LIMIT determines the number of rows, OFFSET skips the offset rows before beginning to return the rows
+
+SQL LIMIT clause is not supported by SQL server, it uses OFFSET FETCH
+
+SQL WHERE CLAUSE
+
+YEAR FUNCTION
 

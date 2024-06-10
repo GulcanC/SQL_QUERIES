@@ -307,13 +307,11 @@ ORDER BY salary DESC
 LIMIT 1
 
 -- to get the second highest salary => 17000
-
 SELECT employee_id, salary, first_name, last_name FROM employees
 ORDER BY salary DESC
 LIMIT 1 OFFSET 1
 
 -- to get the third highest salary => 17000, here is the same but we can use subquery
-
 SELECT employee_id, salary, first_name, last_name FROM employees
 ORDER BY salary DESC
 LIMIT 1 OFFSET 2
@@ -322,7 +320,26 @@ SELECT employee_id, first_name, last_name, salary FROM employees
 WHERE salary = (SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1,1)
 
 -- OR to get the minimum salary => 2500
-
 SELECT employee_id, salary, first_name, last_name FROM employees
 ORDER BY salary ASC
 LIMIT 1
+
+-- WHERE CLAUSE
+SELECT DISTINCT employee_id, salary, first_name, last_name FROM employees
+WHERE salary >= 13000
+ORDER BY salary ASC
+
+SELECT DISTINCT employee_id, salary, first_name, last_name FROM employees
+WHERE last_name ='King'
+
+SELECT * FROM employees
+WHERE manager_id IS NULL
+
+SELECT * FROM employees
+WHERE hire_date >= '1998-05-05'
+ORDER BY hire_date ASC
+
+-- YEAR FUNCTION ---
+--- Select hire_date if the year is 1998 --
+
+SELECT employee_id, first_name, last_name, hire_date
