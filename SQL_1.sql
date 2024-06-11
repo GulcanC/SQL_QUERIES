@@ -445,3 +445,40 @@ ORDER BY AVG(salary) DESC
 SELECT employee_id, first_name, last_name, salary FROM employees
 WHERE salary >= 5000 AND salary <= 7000 
 ORDER BY salary
+
+-- BETWEEN operators
+
+-- Find all employees whose salary is between 8500 and 10000
+
+SELECT DISTINCT employee_id, salary, first_name, last_name FROM employees
+WHERE salary BETWEEN 8500 AND 10000
+ORDER BY first_name ASC
+
+-- SQL EXISTS/NOT EXISTS / EXISTS and NULL Operator => allows you to specify a subquery to test for the existence of rows. EXISTS (subquery)
+-- EXISTS operator terminates the query processing immediately once it finds a row. 
+-- EXISTS operator returns true if the subquery contains any rows. Otherwise, it returns false. 
+
+-- We will use the employees and dependents tables. Find all employees who have at least one dependent.
+
+-- subquery
+SELECT dependent_id, employee_id FROM dependents
+ORDER BY dependent_id ASC
+
+-- main query 
+SELECT employee_id, first_name, last_name, email FROM employees
+WHERE EXISTS (SELECT 1 FROM dependents
+WHERE employees.employee_id = dependents.employee_id)
+ORDER BY first_name
+
+-- SQL NOT EXISTS => the following query finds employees who do not have any dependents
+
+SELECT employee_id, first_name, last_name FROM employees
+WHERE NOT EXISTS( SELECT 1 FROM dependents
+WHERE employees.employee_id = dependents.employee_id)
+
+-- SQL EXISTS AND NULL => If the subquery returns NULL, the EXISTS operator still returns the result set. 
+-- This is because the EXISTS operator only checks for the existence of row returned by the subquery. It does not matter if the row is NULL or not. 
+
+SELECT employee_id, first_name, last_name FROM employees
+WHERE EXISTS (SELECT NULL)
+ORDER BY first_name, last_name
