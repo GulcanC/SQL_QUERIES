@@ -381,24 +381,67 @@ SELECT  first_name, salary, job_id FROM employees
 WHERE job_id <= 10
 ORDER BY job_id DESC
 
----  SQL LOGICAL OPERATOR => ALL AND ANY BETWEEN EXISTS IN LIKE NOT OR SOME  ---
+---  SQL LOGICAL OPERATOR => ALL ANY AND BETWEEN EXISTS IN LIKE NOT OR SOME  ---
 
 --- ALL operator compares a value to all values in another value set
 --- Find all employees whose salaries are greater than all salaries of employees in the departement 8
+--- There is a difference between ALL and ANY operator. For ALL operator, 
+--  ALL operator takes max salary from subquery but in ANY operator it takes any salary which is greater than min or max salary of the subquery
 
+-- First subquery => here the min salary is 6200, max salary is 14000
+SELECT salary FROM employees
+WHERE department_id = 8
+ORDER BY salary
+
+-- Then main query
 SELECT first_name, last_name, salary, employee_id, department_id FROM employees
 WHERE salary >= 
 ALL (SELECT salary FROM employees
 WHERE department_id = 8
 ORDER BY salary)
 
+--- ANY operator compares a value to any value in a set according to the condition
+--- ANY operator, first subquery takes all salaries in the department 8, the main query returns all salaries which are greter than any salary.
+--  The range for the subquery changes between 6200 and 14000 and main query will return the salaries greater than 6200 and 14000
+
+--  subquery
+SELECT salary FROM employees
+WHERE department_id = 8
+ORDER BY salary
+
+--  main query
+SELECT first_name, last_name, salary, employee_id, department_id FROM employees
+WHERE salary >= 
+ANY (SELECT salary FROM employees
+WHERE department_id = 8
+ORDER BY salary)
+
+
+-- ANY query another example => find all employees whose salaries are greater than the average salary of every department.
+
+-- subquery finds all average salary according to the each departement , min 4150, max 19333
+SELECT department_id, AVG(salary) AS AVGsalaryDep FROM employees
+GROUP BY department_id
+ORDER BY AVG(salary) DESC
+
+-- main query, ANY operator will return any salary greter than 4150 and 19333
+SELECT employee_id, first_name, last_name, department_id, salary 
+FROM employees 
+WHERE salary >= ANY(SELECT AVG(salary) AS AVGsalaryDep FROM employees
+GROUP BY department_id
+ORDER BY AVG(salary) DESC
+)
+
+-- main query ALL operator, will return ALL values greter than just max value 19333
+
+SELECT employee_id, first_name, last_name, department_id, salary 
+FROM employees 
+WHERE salary >= ALL(SELECT AVG(salary) AS AVGsalaryDep FROM employees
+GROUP BY department_id
+ORDER BY AVG(salary) DESC
+)
 
 --- Find all employees whose salaries are greater than 5000 and less than 7000
-
 SELECT employee_id, first_name, last_name, salary FROM employees
 WHERE salary >= 5000 AND salary <= 7000 
 ORDER BY salary
-
-
-
-
