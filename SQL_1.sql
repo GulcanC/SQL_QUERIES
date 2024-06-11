@@ -482,3 +482,32 @@ WHERE employees.employee_id = dependents.employee_id)
 SELECT employee_id, first_name, last_name FROM employees
 WHERE EXISTS (SELECT NULL)
 ORDER BY first_name, last_name
+
+-- SQL IN Operator => It returns true if a value is in a set of values or false otherwise
+
+SELECT employee_id, first_name, last_name, job_id FROM employees
+WHERE job_id IN(5, 6, 7)
+ORDER BY job_id
+
+SELECT employee_id, first_name, last_name FROM employees
+WHERE employee_id NOT IN (201, 202, 203)
+ORDER BY employee_id DESC
+
+-- SQL IN Operator with subquery
+
+-- subquery returns the departement id of the Marketing and Sales
+
+-- 1) subquery
+SELECT department_id FROM departements
+WHERE department_name = 'Marketing' OR department_name = 'Sales'
+
+-- 2) Then we can pass the id list to the IN operator to find employees who work in the Marketing and Sales departments
+
+SELECT employee_id, first_name, last_name FROM employees
+WHERE department_id IN(2, 8)
+
+-- We did it separaetaly but we can use subquery to combine the two queries
+
+SELECT employee_id, first_name, last_name FROM employees
+WHERE department_id IN (SELECT department_id FROM departements
+WHERE department_name = 'Marketing' OR department_name = 'Sales')
