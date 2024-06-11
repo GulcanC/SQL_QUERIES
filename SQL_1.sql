@@ -380,3 +380,25 @@ ORDER BY job_id DESC
 SELECT  first_name, salary, job_id FROM employees
 WHERE job_id <= 10
 ORDER BY job_id DESC
+
+---  SQL LOGICAL OPERATOR => ALL AND ANY BETWEEN EXISTS IN LIKE NOT OR SOME  ---
+
+--- ALL operator compares a value to all values in another value set
+--- Find all employees whose salaries are greater than all salaries of employees in the departement 8
+
+SELECT first_name, last_name, salary, employee_id, department_id FROM employees
+WHERE salary >= 
+ALL (SELECT salary FROM employees
+WHERE department_id = 8
+ORDER BY salary)
+
+
+--- Find all employees whose salaries are greater than 5000 and less than 7000
+
+SELECT employee_id, first_name, last_name, salary FROM employees
+WHERE salary >= 5000 AND salary <= 7000 
+ORDER BY salary
+
+
+
+

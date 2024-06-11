@@ -30,3 +30,5 @@ SQL WHERE CLAUSE
 YEAR FUNCTION
 
 BETWEEN CLAUSE
+
+SQL LOGICAL OPERATORS => all, and, any, between, exists, in, like, not, or, some
