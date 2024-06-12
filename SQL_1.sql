@@ -511,3 +511,150 @@ WHERE department_id IN(2, 8)
 SELECT employee_id, first_name, last_name FROM employees
 WHERE department_id IN (SELECT department_id FROM departements
 WHERE department_name = 'Marketing' OR department_name = 'Sales')
+
+-- SQL LIKE OPERATOR => tests whether an expression matches the pattern, two wildcard characters to make a pattern.
+-- % wildcard matches zero, one or more characters, _ wildcard matches a single character
+
+SELECT * FROM employees
+
+-- Select first_name starts with "sh"
+
+SELECT first_name, last_name FROM employees
+WHERE first_name LIKE 'Sh%'
+
+-- Select first name ends with "an"
+
+SELECT first_name, last_name FROM employees
+WHERE first_name LIKE '%an'
+
+-- select first name contains "ch"
+SELECT first_name, last_name FROM employees
+WHERE first_name LIKE '%ch%'
+
+-- SELECT first name with 3 letters  and in the middle there is 'e' letter
+
+SELECT first_name, last_name FROM employees
+WHERE first_name LIKE '_e_'
+
+--- NOT LIKE 
+
+SELECT first_name, last_name FROM employees
+WHERE first_name NOT LIKE '%an' AND first_name NOT LIKE '%am' AND first_name NOT LIKE '%en' 
+
+-- SQL IS NULL operator 
+
+SELECT first_name, last_name, phone_number, manager_id FROM employees
+WHERE manager_id IS NULL
+
+SELECT first_name, last_name, phone_number, manager_id FROM employees
+WHERE manager_id IS NOT NULL
+
+---- SQL ALIAS, for field name and for table 
+---- For example AS, but you do not to use AS, you can write it directl, if you have a space, you must use double or single qoute
+
+
+--- Field name alias
+SELECT first_name AS NAME,  /* using AS without quote */
+       last_name AS 'LAST NAME', /* using AS /with quote */
+       salary*1.1 'NEW SALARY' /* without AS */
+FROM employees
+WHERE salary >= 10000  -- Here if I use WHERE 'NEW SALARY' >= 10000, the sql server does not know alias
+ORDER BY 'NEW SALARY'  ASC -- But here for ORDER BY, I can use my ALIAS
+
+--- Table alias
+
+SELECT e.first_name, e.last_name 
+FROM employees AS e
+ORDER BY first_name
+
+--- If you have two common fields which come from the different tables, you can use alias for both of them
+--  If I use ON operator, all the results are the same for two filds
+SELECT e.department_id, d.department_id 
+FROM employees AS e 
+INNER JOIN  departements AS d ON e.department_id = d.department_id
+ORDER BY e.department_id  DESC 
+
+SELECT e.department_id, d.department_id 
+FROM employees AS e 
+INNER JOIN  departements AS d 
+ORDER BY e.department_id  DESC 
+
+--- SQL INNER JOIN
+
+--- join two tables employees and departments
+
+select * from employees
+
+select * from departements
+
+-- department_id is common field
+
+SELECT e.first_name, e.last_name, e.employee_id, e.department_id, d.department_id
+FROM employees AS e
+INNER JOIN departements AS d
+ON e.department_id = d.department_id
+WHERE e.department_id IN(6,7,9)
+ORDER BY e.department_id
+
+--- INNER JOIN with three tables => jobs, employees, departments
+
+select * from employees -- department_id, job_id
+
+select * from departements -- department_id
+
+select * from jobs -- job_id
+
+SELECT j.job_id, e.job_id, d.department_id, e.department_id, e.employee_id, e.first_name
+FROM employees AS e
+INNER JOIN departements AS d
+ON e.department_id = d.department_id
+INNER JOIN jobs AS j
+ON j.job_id = e.job_id
+
+--- LEFT JOIN
+
+-- left join two table, for example countries and locations tables, each location belongs to one country while each country can have many locations
+-- The relationship is one to many, we selected all countries, if they have a city, we will see it, if they have not a city, we will see NULL value
+
+select * from countries  -- one country
+
+select * from locations  -- many locations
+
+SELECT c.country_name, c.country_id, l.country_id, l.city 
+FROM countries AS c
+LEFT JOIN locations AS l
+ON c.country_id = l.country_id
+ORDER BY country_name
+
+-- Left join three tables => regions, countries, locations
+
+select * from countries  -- one country, bir ulkede bir cok locations var
+
+select * from locations  -- many locations
+
+select * from regions  -- one regions, region is kita, bir kitada bir suru ulke var
+
+-- First regions(kita) => countries => locations
+
+SELECT c.country_name, c.country_id, c.region_id, r.region_id, r.region_name, l.country_id, l.location_id
+FROM regions AS r
+LEFT JOIN countries  AS c ON c.region_id = r.region_id
+LEFT JOIN locations AS l ON c.country_id = l.country_id
+ORDER BY region_name ASC
+
+--- SQL SELF JOIN, we join a table to itself, we can use inner join or left join
+--- Par example employee table
+
+-- concatination sql SERVER
+-- SELECT e.first_name || ' ' || e.last_name AS employees, m.first_name || ' ' || m.last_name AS managers
+-- FROM employees AS e
+-- INNER JOIN employees AS m
+-- ON m.employee_id = e.manager_id
+-- ORDER BY managers
+
+
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS employees, CONCAT(m.first_name, ' ',  m.last_name) AS managers
+FROM employees AS e
+INNER JOIN employees AS m
+ON m.employee_id = e.manager_id
+ORDER BY managers
