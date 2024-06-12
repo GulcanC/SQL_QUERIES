@@ -658,3 +658,14 @@ FROM employees AS e
 INNER JOIN employees AS m
 ON m.employee_id = e.manager_id
 ORDER BY managers
+
+-- Here Steven King has not a manager_id because he is president. To include it use left join
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS employees, CONCAT(m.first_name, ' ',  m.last_name) AS managers
+FROM employees AS e
+LEFT JOIN employees AS m
+ON m.employee_id = e.manager_id
+ORDER BY managers
+
+-- FULL OUTER JOIN
+
+-- IN MYSQL server, FULL OUTER JOIN is not provided, but you can use UNION
