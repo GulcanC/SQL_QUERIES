@@ -668,4 +668,85 @@ ORDER BY managers
 
 -- FULL OUTER JOIN
 
--- IN MYSQL server, FULL OUTER JOIN is not provided, but you can use UNION
+-- IN MYSQL server, FULL OUTER JOIN is not provided, but you can use UNION which means the combination of the LEFT and RIGHT join
+
+-- For example create two new tables
+CREATE TABLE fruits(
+    fruit_id INTEGER PRIMARY KEY,
+    fruit_name VARCHAR(25) NOT NULL,
+    basket_id INT
+)
+
+CREATE TABLE baskets(
+    basket_id INT PRIMARY KEY,
+    basket_name VARCHAR(255) NOT NULL
+)
+
+INSERT INTO fruits (fruit_id, fruit_name, basket_id) 
+VALUES (1, 'Apple', 1), (2, 'Orange', 1), (3, 'Banana', 2), (4, 'Strawberry', NULL)
+
+
+INSERT INTO baskets (basket_id, basket_name) 
+VALUES (1, 'A'), (2, 'B'), (3, 'C'), (4, 'D')
+
+-- In left outer join, we have all fruits but we don't have all baskets
+SELECT * FROM fruits
+LEFT OUTER JOIN baskets
+ON fruits.basket_id = baskets.basket_id
+
+-- In right outer join, we have all baskets but we don't have all fruits
+SELECT * FROM fruits
+RIGHT OUTER JOIN baskets
+ON fruits.basket_id = baskets.basket_id
+
+--- UNION = LEFT JOIN + RIGHT JOIN
+
+SELECT * FROM fruits
+LEFT OUTER JOIN baskets
+ON fruits.basket_id = baskets.basket_id
+UNION
+SELECT * FROM fruits
+RIGHT OUTER JOIN baskets
+ON fruits.basket_id = baskets.basket_id
+
+
+---  CROSS JOIN => we do not to use the common field and ON operator. CROSS JOIN, returns all possibilities
+SELECT * FROM fruits
+CROSS JOIN baskets
+
+
+-- GROUP BY
+
+-- employees and departments tables, we have same department_id, GROUP BY returns together like group
+
+SELECT * FROM departements
+
+SELECT * FROM employees
+
+SELECT CONCAT(first_name, ' ', last_name) AS NAME, employee_id, department_id FROM employees
+GROUP BY CONCAT(first_name, ' ', last_name), employee_id, department_id
+ORDER BY department_id
+
+-- Use COUNT() function to count the number of employees by department
+SELECT department_id, COUNT(employee_id) 'NUMBER OF EMPLOYEES' FROM employees
+GROUP BY department_id
+ORDER BY department_id DESC
+
+--- GROUP BY WITH INNER JOIN
+SELECT department_name, COUNT(employee_id) AS 'EMPLOYEE NUMBER' FROM employees AS e 
+INNER JOIN departements d ON e.department_id = d.department_id
+GROUP BY department_name
+ORDER BY department_name
+
+
+--- GROUP BY with HAVING claus which works like WHERE clause
+SELECT department_name, COUNT(employee_id) AS 'EMPLOYEE NUMBER' FROM employees AS e 
+INNER JOIN departements d ON e.department_id = d.department_id
+GROUP BY department_name
+HAVING  COUNT(employee_id) > 5
+ORDER BY department_name
+
+
+
+
+
