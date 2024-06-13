@@ -764,3 +764,14 @@ GROUP BY employee_id, department_id
 
 SELECT AVG(salary) AS 'AVERAGE SALARY', department_id FROM employees
 GROUP BY department_id
+
+--- Use INNER JOIN with functions AVG, MIN, MAX
+SELECT * FROM departements
+
+SELECT * FROM employees
+
+SELECT d.department_name, MIN(salary) AS 'MIN SALARY', Max(salary) AS 'MAX SALARY', ROUND(AVG(salary), 2) AS 'AVERAGE SALARY'
+FROM employees AS e
+INNER JOIN departements AS d
+ON e.department_id = d.department_id
+GROUP BY department_name
