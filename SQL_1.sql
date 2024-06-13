@@ -746,7 +746,21 @@ GROUP BY department_name
 HAVING  COUNT(employee_id) > 5
 ORDER BY department_name
 
+--- GROUP BY with MIN, MAX, AVG 
 
+-- Find minimum salary of employees in each department
 
+SELECT salary, department_id FROM employees
 
+SELECT MIN(salary) AS 'MIN SALARY', employee_id, department_id FROM employees
+GROUP BY employee_id, department_id 
 
+-- Find maximum salary of employees in each department
+
+SELECT MAX(salary) AS 'MAX SALARY', employee_id, department_id FROM employees 
+GROUP BY employee_id, department_id
+
+-- Find average salary of employees in each department, use ROUND function also
+
+SELECT AVG(salary) AS 'AVERAGE SALARY', department_id FROM employees
+GROUP BY department_id
