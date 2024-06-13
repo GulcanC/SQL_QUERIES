@@ -775,3 +775,11 @@ FROM employees AS e
 INNER JOIN departements AS d
 ON e.department_id = d.department_id
 GROUP BY department_name
+
+--- SQL GROUP BY with SUM function
+
+SELECT d.department_name, SUM(salary) AS 'TOTAL SALARY' FROM employees AS e 
+INNER JOIN departements AS d
+ON e.department_id = d.department_id
+GROUP BY department_name
+
