@@ -1028,3 +1028,22 @@ select * from dependents
 select concat(first_name, ' ', last_name) NAME, salary, employee_id from employees e 
 WHERE NOT EXISTS (select employee_id from dependents d WHERE e.employee_id = d.employee_id )
 ORDER BY NAME
+
+--- SQL UNION OPERATOR
+
+--- the UNION operator combines result sets of two or more SELECT statements into a single result set
+--- The UNION is different from join that join combines columns of multiple tables while the union combines rows of tables
+--- SQL UNION ALL return the duplicate row
+
+--- combine the first and last name of employees and dependents
+
+select * from dependents
+
+select *from employees
+
+select first_name, last_name from employees AS e
+UNION
+select first_name, last_name from dependents AS d
+ORDER BY first_name ASC
+
+
