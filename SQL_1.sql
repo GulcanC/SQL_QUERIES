@@ -982,3 +982,49 @@ select round(avg(salary), 2) as avg_salary_employee from employees
 select employee_id AS ID, CONCAT(first_name, ' ', last_name) as NAME, salary AS SALARY_REEL,
 (select  round(avg(salary), 2) from employees) as AVG_SALARY, (salary - (select round(avg(salary)) from employees)) AS 'DIFFERENCE' from employees
 ORDER BY DIFFERENCE DESC
+
+--- SQL CORRELATED SUBQUERY => which is subquery that uses values from the outer query
+
+--- Find employees whose salary is greater than the average salary of the employees in their departments
+
+--- find average salary for each department => par example 1 4400 (1 tek salary var)? 2 9500, 3 4150, 4 6500, 5 5886
+
+select round(avg(salary)), department_id from employees
+group by department_id order by department_id
+
+--- see all salary and departments => the max salary => 1 4400, 2 13000, 3 11000, 4 6500 (tek), 5 8000 6500 7900 8200
+
+select department_id, salary from employees order by department_id
+
+--- main query 
+select first_name, salary, department_id from employees AS e
+where salary > (select round(avg(salary), 2) as average_employee from employees
+where department_id = e.department_id)
+ORDER BY department_id
+
+--- return the employees and the average salary of all employees in their departments
+
+--- sub query 
+
+select round(avg(salary)), department_id from employees
+group by department_id order by department_id
+
+--- main query
+
+select employee_id, concat(first_name, ' ', last_name) as 'NAME', department_name, salary,
+(select round(avg(salary)) from employees where department_id = e.department_id ) as avg_salary_department
+from employees e 
+inner join departements d ON d.department_id = e.department_id
+order by avg_salary_department
+
+--- SQL correlated subquery with EXISTS operator
+
+-- return all employees who have no dependents
+
+select concat(first_name, ' ', last_name), salary, employee_id from employees
+
+select * from dependents
+
+select concat(first_name, ' ', last_name) NAME, salary, employee_id from employees e 
+WHERE NOT EXISTS (select employee_id from dependents d WHERE e.employee_id = d.employee_id )
+ORDER BY NAME
