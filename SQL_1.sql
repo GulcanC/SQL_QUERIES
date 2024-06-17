@@ -1039,11 +1039,26 @@ ORDER BY NAME
 
 select * from dependents
 
-select *from employees
+select * from employees
 
 select first_name, last_name from employees AS e
 UNION
 select first_name, last_name from dependents AS d
 ORDER BY first_name ASC
 
+--- INTERSECT OPERATOR
+--- it is a set operator that returns distinct rows of two or more result sets from SELECT statements
+--- Like the UNION operator, the INTERSECT operator removes the duplicate rows from the final set
+--- These are records that exists in both table employees and dependents
 
+select employee_id from employees
+INTERSECT
+select employee_id from dependents
+
+select first_name  from employees
+INTERSECT
+select first_name from dependents
+
+select first_name, employee_id  from employees order by first_name
+
+select first_name, employee_id from dependents order by first_name
