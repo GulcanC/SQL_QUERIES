@@ -783,3 +783,202 @@ INNER JOIN departements AS d
 ON e.department_id = d.department_id
 GROUP BY department_name
 
+--- SQL GROUP BY multiple columns
+--- group employees by values department_name, job_id
+
+SELECT department_name, job_id, COUNT(employee_id)
+FROM employees AS e
+INNER JOIN departEments d 
+ON e.department_id = d.department_id
+GROUP BY department_name, job_id
+
+--- SQL GROUPING SETS
+
+--- First create a table 'inventory'
+
+drop table inventroy
+
+CREATE TABLE inventory (
+    warehouse VARCHAR(255),
+    product VARCHAR(255) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    quantity INT,
+    PRIMARY KEY (warehouse, product, model)
+)
+
+INSERT INTO inventory(warehouse, product, model, quantity)
+VALUES('San Jose', 'iPhone','6s',100),
+('San Fransisco', 'iPhone','6s',50),
+('San Jose','iPhone','7',50),
+('San Fransisco', 'iPhone','7',10),
+('San Jose','iPhone','X',150),
+('San Fransisco', 'iPhone','X',200),
+('San Jose','Samsung','Galaxy S',200),
+('San Fransisco','Samsung','Galaxy S',200),
+('San Fransisco','Samsung','Note 8',100),
+('San Jose','Samsung','Note 8',150);
+
+--- GROUPING SETS, it is a set of columns by which you group using the GROUP BY clause
+--- It defines a grouping set (warehouse, product), it returns the number of stock 
+SELECT * FROM inventory
+
+SELECT warehouse, product, SUM(quantity) 'SUM QUANTITY'
+FROM inventory
+GROUP BY warehouse, product
+
+--- The following query finds the number of quantity by the warehouse, it defines the grouping set (warehouse)
+
+SELECT warehouse, SUM(quantity) 'TOTAL QUANTITY' FROM inventory
+GROUP BY warehouse
+
+--- The following query returns the number of quantity by the product, it defines the grouping set (product)
+
+SELECT product, SUM(quantity) 'TOTAL QUANTITY' FROM inventory
+GROUP BY product
+
+-- The following query finds the number of quantity for all warehouses and products. It defines an empty grouping set()
+
+SELECT SUM(quantity) 'TOTAL QUANTITY' FROM inventory
+
+--- GROUP BY ROLL , we use ROLLUP to generate multiple grouping sets, the ROLLUP is an extension of the GROUP BY clause
+--- ROLLUP option allows you to include extra rows that represent the subtotals. 
+
+SELECT warehouse, product, SUM(quantity) 'SUM QUANTITY'
+FROM inventory
+GROUP BY ROLLUP(warehouse, product)
+
+SELECT warehouse, SUM(quantity) 'TOTAL QUANTITY' FROM inventory
+GROUP BY ROLLUP (warehouse)
+
+--- The following query returns the number of quantity by the product, it defines the grouping set (product)
+
+SELECT product, SUM(quantity) 'TOTAL QUANTITY' FROM inventory
+GROUP BY ROLLUP(product)
+
+--- MYSQL SUBQUERY 
+
+--- Find all employees who locate in the location with the id 1700.
+
+--- employee_id, department_id
+SELECT * FROM employees
+
+--- department_id, location_id
+SELECT * FROM departements 
+
+--- location_id
+SELECT * FROM locations
+
+--- Normally, I can do it like that
+SELECT e.employee_id, e.first_name, e.department_id, d.department_id, d.location_id, l.location_id
+FROM employees AS e
+INNER JOIN departements AS d ON e.department_id = d.department_id 
+INNER JOIN locations AS l ON d.location_id = l.location_id
+WHERE l.location_id = 1700
+ORDER BY first_name
+
+--- WITH SUBQUERY
+
+--- sub query, we find department_ids where location_id is 1700
+SELECT department_id from departements
+WHERE location_id = 1700
+
+--- main query, then we are using these department_ids in employees table to get the name of the employees
+SELECT first_name, employee_id, department_id FROM employees
+WHERE department_id IN(1, 3, 9, 10, 11)
+order by first_name
+
+--- TOTAL QUERY
+SELECT first_name, department_id, employee_id
+FROM employees
+WHERE department_id IN
+(SELECT department_id from departements
+WHERE location_id = 1700)
+
+--- COMPARASION OPERATORS WITH SUBQUERY
+
+--- finds the employees who have the highest salary
+
+SELECT first_name, salary, employee_id FROM employees
+WHERE salary = (SELECT MAX(salary) FROM employees)
+
+-- Find min salary from employees
+
+SELECT CONCAT(first_name, ' ', last_name), salary FROM employees
+WHERE salary = (SELECT MIN(salary) FROM employees)
+
+--- SUBQUERY WITH EXISTS CLAUSE, exists operator checks for the existence of rows returned from the subquery
+
+--- syntax => EXISTS(subquery)
+
+--- Find all departments which have at least one employee with the salary is greater than 10000
+
+select department_name FROM departements AS d
+WHERE EXISTS (SELECT  1 FROM employees AS e WHERE  salary > 10000 AND d.department_id = e.department_id)
+ORDER BY department_name ASC
+
+--- Second way to find all departments which has the employees that their salary is greater than 10000
+--- salary, employee_id, department_id
+select * from employees 
+
+--- department_name, department_id
+select * from departements 
+
+SELECT department_id FROM employees WHERE salary >10000
+
+SELECT department_name, department_id FROM departements
+WHERE department_id IN (SELECT department_id FROM employees WHERE salary >10000)
+ORDER BY department_name ASC
+
+-- SQL Subquery with ALL operator, find all employees whose salaries are greater than the lowest salary of every departments
+
+--- First see the min, and max salaries in each department
+--- max salary in the department 9 and it is 17000, now we are looking the salary is equal or greater than 17000
+-- ALL operator takes max minimum salary in each department
+
+
+select  min(salary) 'MIN SALARY', max(salary) 'MAX SALARY', department_id from employees
+group by  department_id
+
+select first_name, salary FROM employees
+where salary >= ALL (select  min(salary) from employees GROUP BY department_id
+) GROUP BY first_name, salary
+
+--- Do the same example by using ANY operator, it is the same but ANY operator takes minimum value and select greater than this value in each department. 
+
+select  min(salary) 'MIN SALARY', max(salary) 'MAX SALARY', department_id from employees
+group by  department_id
+
+
+select first_name, salary FROM employees
+where salary >= ANY (select  min(salary) from employees GROUP BY department_id
+) GROUP BY first_name, salary
+
+--- Find the average of average salary of every department using subquery
+
+--- subquery => First find the average salary of each department
+
+SELECT AVG(salary), department_id AS 'AVERAGE SALARY' FROM employees
+GROUP BY department_id
+
+--- main query => now find the average of average salary of each department
+--- Here it does not accept the qoutes '' like 'AVERAGE SALARY', so chenge it like avg_salary
+--- Here 2 means after comma there are two numbers, 3 there three numbers
+--- At the end we have to find a table name like alias AS dep_salary
+
+SELECT ROUND(AVG(avg_salary), 3)
+FROM (SELECT AVG(salary) AS avg_salary FROM employees
+GROUP BY department_id) AS dep_salary
+
+--- Find the salaries of all employees, their average salary and the difference between the salary of each employee and the average salary using sub query
+
+--- the salaries of all employees
+select salary, employee_id, first_name from employees
+
+--- their average salary
+select round(avg(salary), 2) as avg_salary_employee from employees
+
+--- the difference between the salary of each employee and the average salary
+
+select employee_id AS ID, CONCAT(first_name, ' ', last_name) as NAME, salary AS SALARY_REEL,
+(select  round(avg(salary), 2) from employees) as AVG_SALARY, (salary - (select round(avg(salary)) from employees)) AS 'DIFFERENCE' from employees
+ORDER BY DIFFERENCE DESC
