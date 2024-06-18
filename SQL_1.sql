@@ -1094,3 +1094,97 @@ WHEN first_name LIKE '%en%' THEN 'The first name is KAREN or IRENE'
 ELSE 'The first name is EMPTY'
 END AS 'FIRST NAMES'
 FROM employees
+
+--- SQL MINUS => to substract one result set from another result set 
+--- BUT MYSQL SERVER does not provide MINUS operator. 
+--- So we can use NOT IN OPERATOR like the following
+--- For example each employee has zero or more dependents while each dependent depends on one and only one employees. 
+--- Find the employees who do not have any dependents. 
+--- To do this, you substract the employee_id result set in the employees table from employee_id result set in the dependents table
+
+------------- SELECT employee_id FROM employees MINUS SELECT employee_id FROM dependents ------------------------ 
+
+--- With LEFT JOIN
+
+-- select from first table, 40 rows
+
+select employee_id from employees
+
+-- select from second table, 29 rows
+
+select employee_id from dependents
+
+select employee_id from employees
+where employee_id NOT IN (select employee_id from dependents)
+order by employee_id
+
+select e.employee_id AS Employee_employee_table, d.employee_id AS Employee_dependent_table  
+from employees e left join dependents d on e.employee_id = d.employee_id
+where d.employee_id IS NULL
+order by e.employee_id
+
+--- SQL UPDATE
+
+SELECT * from employees
+
+UPDATE employees
+SET first_name = 'Stevennn'
+WHERE employee_id = 100
+
+--- SQL INSERT INTO 
+
+INSERT INTO employees(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) 
+VALUES (195,'GC','ALADAG','steven.king@sqltutorial.org','515.123.4567','1987-06-17',4,24000.00,NULL,9);
+
+--- SQL DELETE
+
+DELETE FROM employees WHERE employee_id IN (194, 195)
+
+--- SQL AVERAGE
+
+SELECT ROUND(AVG(salary), 2) AVG_SALARY FROM employees
+
+SELECT ROUND(AVG(DISTINCT salary), 2) AVG_SALARY FROM employees
+
+SELECT ROUND(AVG(DISTINCT salary), 2) AVG_SALARY, department_id FROM employees
+GROUP BY department_id
+
+--- SQL COUNT FUNCTION => COUNT function is an aggregate function that returns the number of rows returned by a query
+
+--- Find the number of rows in the employees table
+
+select count(*) from employees
+
+--- count employees who work in the department id = 6
+
+select count(DISTINCT employee_id) from employees 
+where department_id = 6
+
+
+select count(*) from employees 
+where department_id = 6
+
+--- find the number of employees for each department
+
+select count(employee_id), department_id from employees
+group by department_id
+
+--- find the number of employees by department name
+
+select * from departements
+
+select e.department_id, d.department_name, count(*) 'employee number' from employees e
+inner join departements d on e.department_id = d.department_id
+group by department_id, department_name
+ORDER BY department_name
+
+--- HAVING clause example
+
+--- select only departments that have more than five employees
+
+select e.department_id, d.department_name, count(*)
+from employees e
+INNER JOIN departements d ON e.department_id = d.department_id 
+GROUP BY e.department_id
+HAVING COUNT(*) > 5
+ORDER BY COUNT(*)
