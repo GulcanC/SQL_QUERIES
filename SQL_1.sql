@@ -1180,11 +1180,69 @@ ORDER BY department_name
 
 --- HAVING clause example
 
---- select only departments that have more than five employees
+--- select only departments that have more than 3 employees
 
 select e.department_id, d.department_name, count(*)
 from employees e
 INNER JOIN departements d ON e.department_id = d.department_id 
 GROUP BY e.department_id
-HAVING COUNT(*) > 5
-ORDER BY COUNT(*)
+HAVING COUNT(*) > 3
+ORDER BY COUNT(*) DESC
+
+--- MAX operator with SUBQUERY
+--- get employees who have the highest salary
+
+SELECT employee_id, CONCAT(first_name, ' ', last_name), salary FROM employees
+WHERE salary = (select MAX(salary) from employees)
+
+--- MAX operator with GROUP BY
+--- find the highest salary of employees in each department
+
+select department_id, max(salary) from employees
+group by department_id
+
+
+--- we can include depertment_name
+
+select e.department_id, d.department_id, d.department_name, max(salary) 'MAX SALARY' from employees e
+inner join departements d on e.department_id = d.department_id
+group by  e.department_id, d.department_id, d.department_name
+ORDER BY max(salary)
+
+--- SQL MAX with HAVING
+--- find the department that has employee whose highest salary is greater than 12000
+
+select department_id, max(salary) from employees
+GROUP BY department_id
+HAVING max(salary) > 12000
+
+--- we can include department_name
+select e.department_id, d.department_id, d.department_name, max(salary) from employees e
+inner join departements d ON e.department_id = d.department_id
+group by e.department_id, d.department_id, d.department_name
+HAVING max(salary) >12000
+
+--- SQL MIN OPERATOR
+--- Find the minimum salary , use subquery
+
+select concat(first_name, ' ', last_name) NAME, department_id, salary from employees
+where salary = (select min(salary) from employees)
+
+--- SQL MIN with GROUP BY
+select  department_id, MIN(salary) FROM employees
+GROUP BY  department_id
+
+--- include department_name
+
+select e.department_id, d.department_id, d.department_name, min(salary) from employees e
+INNER JOIN departements d ON e.department_id = d.department_id
+GROUP BY e.department_id, d.department_id, d.department_name
+
+--- SQL MIN WITH HAVING
+
+--- retrive the employees who have the lowest salary in each department. Then include only departments whose salary is less than 3000
+
+select e.department_id, d.department_id, d.department_name, min(salary) from employees e
+inner join departements d on e.department_id = d.department_id
+GROUP BY e.department_id, d.department_id, d.department_name
+HAVING MIN(salary) < 3000
