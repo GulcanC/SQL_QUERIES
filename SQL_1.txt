@@ -48,3 +48,5 @@ SQL SUBQUERY, SQL correlated SUBQUERY
 SQL UNION OPERATOR
 
 SQL intersect operator
+
+SQL CASE

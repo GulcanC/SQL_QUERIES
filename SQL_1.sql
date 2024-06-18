@@ -1,5 +1,5 @@
 -- Active: 1712926247616@@127.0.0.1@3306@gcos_advance_sql_1
-
+---- https://www.sqltutorial.org/sql-sample-database/
 --- SQL QUERIES ---
 
 -- We will create the tables in the picture file, data base diagram, We have 7 tables, they are related with each other --
@@ -1062,3 +1062,35 @@ select first_name from dependents
 select first_name, employee_id  from employees order by first_name
 
 select first_name, employee_id from dependents order by first_name
+
+
+--- SQL CASE => SQL expressions have two formats, simple case, searched case
+
+--- SIMPLE CASE => Find work anniversaries of employees
+
+SELECT first_name, last_name, hire_date,
+CASE (2001 - YEAR(hire_date))
+WHEN 1 THEN '1 year'
+WHEN 3 THEN '3 year'
+WHEN 5 THEN '5 year'
+WHEN 7 THEN '7 year'
+WHEN 9 THEN '9 year'
+WHEN 10 THEN '10 year'
+WHEN 14 THEN '14 year'
+WHEN 20 THEN '20 year'
+ELSE 'X year'
+END AS employee_anniversary
+FROM employees
+ORDER BY first_name
+
+--- Searched case => 
+
+SELECT first_name, last_name, 
+CASE  
+WHEN first_name LIKE 'a_a_' THEN 'The first name is ADAM'
+WHEN first_name LIKE 'St%' Then 'The first name is STEVEN'
+WHEN first_name LIKE 'Da%' THEN 'The first name is DANIEL or DAVID'
+WHEN first_name LIKE '%en%' THEN 'The first name is KAREN or IRENE'
+ELSE 'The first name is EMPTY'
+END AS 'FIRST NAMES'
+FROM employees
