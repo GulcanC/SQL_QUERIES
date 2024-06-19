@@ -1246,3 +1246,50 @@ select e.department_id, d.department_id, d.department_name, min(salary) from emp
 inner join departements d on e.department_id = d.department_id
 GROUP BY e.department_id, d.department_id, d.department_name
 HAVING MIN(salary) < 3000
+
+--- SQL SUM OPERATOR
+
+select e.department_id, d.department_id, d.department_name, SUM(salary) from employees e
+inner join departements d on e.department_id = d.department_id
+GROUP BY e.department_id, d.department_id, d.department_name
+HAVING SUM(salary) > 30000
+
+--- 😄 MYSQL DATA TYPES 😄 ----
+
+---- 😄 STRING DATATYPES ----
+
+--- CHAR(size) => A fixed lehgth string(letters, numbers, special characters)(0-255) Fixed means if length is 4, you have to write a leetr that the lenght is 4, not less than 4
+
+--- VARCHAR(size) => A variable length string(letters, numbers, special characters)(0-65535) If the length is 4, this means max 4, you can write 3 letters word
+
+--- BINARY(size) => Equal to CHAR(), but stores binary byte strings
+
+--- TEXT(size) => Holds a string with a max length of 65535 bytes
+
+--- 😄 NUMERIC DATA TYPES ----
+
+--- BOOL => zero is considered as false, nonzero values are considered as true
+
+--- BOOLEAN => equal to BOOL
+
+--- INT() => Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295.
+
+--- INTEGER(size) => Equal to INT(size)
+
+--- DECIMAL(size, d) => An exact fixed-point number. The total number of digits is specified in size. The number of digits after the decimal point is specified in the d parameter. The max number for size is 65, the max number for d is 30
+
+--- DEC(size, d) => Equal to DEVIMAL(size, d)
+
+--- 😄 DATE and TIME DATA TYPES ----
+
+--- DATE => Format: YYYY-MM--DD. The supported range is from '1000-01-01' to '9999-12-31'
+
+--- DATETIME(fsp) => A date and time combination. Format: YYYY-MM--DD hh:mm:ss
+
+--- TIMESTAMP(fsp) => Format: YYYY-MM-DD => Automatic initialization and updating to the current date and time can be specified using:
+--- DEFAULT CURRENT_TIMESTAMP and ON UPDATE CURRENT_TIMESTAMP
+
+--- TIME(fsp) => A time. Format: hh::mm:ss. The supported range is from '-838:59:59' to '838:59:59'
+
+--- YEAR => four-digit format
+
