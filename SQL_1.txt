@@ -59,3 +59,19 @@ SQL AVG, COUNT, MAX, MIN, SUM
 
 SQL DATA TYPES
 
+SQL DELETE, SQL TRUNCATE
+
+SQL PRIMARY KEY => A table consists of columns and rows. Typically, a table has a column or set of columns whose values uniquely identfy each row in the table.
+This column or the set of columns is called the primary key.
+Each table has one and only one primary key. The primary key does not accept NULL or duplicate values
+
+SQL FOREIGN KEY => A foreign key is a column or a group of columns that enforces a link between the data in two tables. 
+
+SQL UNIQUE constraint => Sometimes, we want to make sure that the values in a column or a set of columns are not duplicate.
+For example, duplicate emails in the employees table are not acceptable. But the email column is not the part of the primary key, 
+the only way to prevent duplicate values in the email column is to use a UNIQUE constraint.
+
+UNIQUE vs. PRIMARY KEY constraints => You can have at most one PRIMARY KEY constraint whereas you can have multiple UNIQUE constraints
+
+
+

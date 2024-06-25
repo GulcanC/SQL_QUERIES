@@ -1293,3 +1293,81 @@ HAVING SUM(salary) > 30000
 
 --- YEAR => four-digit format
 
+--- SQL ALTER TABLE ---
+-- We can add multiple columns to a table by using ADD operator. For example, we added middle_name and surname columns to the employees table after the column first_name
+
+ALTER TABLE employees
+ADD middle_name NUMERIC(10,2) AFTER first_name,
+ADD surname INT AFTER first_name
+
+--- Use ALTER TABLE with MODIFY clause to change some attributes like NOT NULL, UNIQUE, data types
+--- I will change the data types of the first_name, middle_name and surname
+
+ALTER TABLE employees
+MODIFY first_name CHAR(45)
+
+select * from employees
+
+ALTER TABLE employees
+MODIFY first_name VARCHAR(45)
+
+ALTER TABLE employees MODIFY middle_name VARCHAR(45)
+
+ALTER TABLE employees MODIFY surname VARCHAR(45)
+
+--- ALTER TABLE with DROP clause
+
+ALTER TABLE employees
+DROP COLUMN surname,
+DROP COLUMN middle_name
+
+--- SQL DROP TABLE ---
+
+CREATE TABLE contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    employe_id INT NOT NULL
+)
+
+CREATE TABLE my_contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    employe_id INT NOT NULL
+)
+
+DROP TABLE contacts, my_contacts
+
+--- DELETE  TABLE ---
+
+INSERT INTO contacts(id, name, employe_id) VALUES(1, 11, 1)
+
+INSERT INTO contacts(id, name, employe_id) VALUES(2, 'GC', 2)
+
+INSERT INTO contacts(id, name, employe_id) VALUES(3, 'SC', 3)
+
+INSERT INTO contacts(id, name, employe_id) VALUES(4, 'GS', 4)
+
+SELECT * from contacts
+
+--- DELETE with condition
+
+DELETE FROM contacts WHERE id = 1
+
+--- DELETE ALL RECORDS => We did not delete the table but we deleted all records from the table
+
+DELETE FROM contacts
+
+--- DROP TABLE => to delete the table 
+
+DROP TABLE contacts
+
+--- SQL TRUNCATE TABLE => to delete all data from a table, we use the DELETE statement without WHERE clause.
+--- For a big table, the DELETE statement is slow and not efficient. To delete all rows from a big table fast, we use TRUNCATE TABLE
+
+TRUNCATE TABLE contacts
+
+
+
+
+
+
