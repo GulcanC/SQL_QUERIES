@@ -185,3 +185,8 @@ SELECT MID('GULCAN', -3, 3) AS "MID()"
 SELECT POSITION('A' IN 'GULCAN') AS 'POSITION()'
 
 SELECT first_name as NAME, POSITION('AN' IN first_name) AS 'POSITION()' FROM employees
+
+--- REPEAT() => It repeats a string as many times as specified
+--- REPEAT(string, number) => the string to repeat, the number of times to repeat the string
+
+SELECT REPEAT('GULCAN | ', 3) AS 'REPEAT()'
