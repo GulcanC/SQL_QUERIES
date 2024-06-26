@@ -73,12 +73,14 @@ the only way to prevent duplicate values in the email column is to use a UNIQUE 
 
 UNIQUE vs. PRIMARY KEY constraints => You can have at most one PRIMARY KEY constraint whereas you can have multiple UNIQUE constraints
 
-😄😄😄 MYSQL FUNCTIONS 😄😄😄
+😄😄😄 MYSQL STRING FUNCTIONS 😄😄😄
 
 ASCII, CHAR_LENGTH, CHARACTER_LENGTH_ CONCAT, CONCAT_WS, FIELD, FIND_IN_SET, FORMAT, INSERT, INSTR, LCASE, LEFT, LENGTH, LOCATE, LOWER, LPAD
 
-LTRIM, MID, POSITION, REPEAT, 
+LTRIM, MID, POSITION, REPEAT, REPLACE, REVERSE, RIGHT, RPAD, RTRIM, SPACE, STRCMP, SUBSTR, SUBSTRING, SUBSTRING_INDEX, TRIM, UCASE, UPPER
 
+
+😄😄😄 MYSQL NUMERIC FUNCTIONS 😄😄😄
 
 
 

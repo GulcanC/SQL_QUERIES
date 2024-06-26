@@ -1,4 +1,4 @@
---- MYSQL FUNCTIONS
+--- 😄 MYSQL STRING FUNCTIONS
 
 --- ASCII FUNCTIONS => returns the ASCII value for the specific character
 -- American standart code for information
@@ -281,3 +281,182 @@ SELECT SUBSTRING_INDEX('www.gmail.com', '.' , 2)
 
 --- result www.gmail.
 SELECT SUBSTRING_INDEX('www.gmail.com', 'c' , 1)
+
+--- TRIM() FUNCTION => removes leading and trailing spaces from a string => bastaki ve sondaki bosluklar
+--- TRIM(string) => it removes only leading and trailing spaces not between 
+
+SELECT TRIM('    Gulcan     ALADAG   COSKUN   ') AS 'TRIM()'
+
+--- UCASE() FUNCTION => convert the text to upper case => It equals to UPPER() function
+--- UCASE(text)
+
+SELECT department_name, UCASE(department_name) AS 'UCASE()' FROM departements
+
+--- UPPER() FUNCTION => convert the text to upper case it is equal to UCASE()
+
+SELECT * from countries
+
+SELECT country_name, UPPER(country_name) AS 'UPPER()' FROM countries
+
+--- 😄 MYSQL STRING FUNCTIONS
+
+--- ABS() FUNCTIONS => returns the absolute(positive) value of a number
+--- ABS(number)
+
+SELECT ABS(-1) AND 
+
+--- AVG() FUNCTION => returns the average value of an expression
+
+SELECT department_id, AVG(salary) AS AVG_SALARY FROM employees GROUP BY department_id
+
+--- CEIL() FUNCTION => return the smallest integer value that is bigger than or equal to a number
+--- It equals to CEILING() FUNCTION
+
+SELECT CEIL(-1.453) AS 'CEIL()'
+
+SELECT CEIL(-2.653) AS 'CEIL()'
+
+--- CEILING() FUNCTION => return the smallest integer value that is bigger than or equal to a number
+--- It equals to CEIL() FUNCTION
+
+SELECT CEILING(-8.853) AS 'CEILING()'
+
+SELECT CEILING(-2.653) AS 'CEILING()'
+
+--- COUNT() FUNCTIONS => returns the number of records returned by a selected query
+--- NULL values are not counted
+--- COUNT(expression)
+
+SELECT COUNT(employee_id) AS COUNT from employees
+
+--- DIV() FUNCTION => it is for integer division
+--- SELECT x DIV y => x the value that will be divided, y is divisor
+--- Even if the result is decimal like 12/5 = 2.6, it will return an integer => 2
+
+SELECT 12 DIV 5 AS DIV_INTEGER
+
+--- FLOOR() FUNCTION => It is reverse of the CEIL() and CEILING() => but it returns the largest integer that is smaller than or equal to number
+--- For CEIL() and CEILING(), if the number of decimal part greater than 5 or less than 5, it selecets always the smallest number like 8.654 or 8.234 => both result 8
+
+
+--- For FLOOR() the decimal part is greater than 5 or less than 5, it will select amways gretaer number of integer part
+---  8.854, 8.123, 8.555 => result is always 9
+
+SELECT FLOOR(-8.853) AS 'FLOOR()'
+
+SELECT FLOOR(-2.453) AS 'FLOOR()'
+
+--- GREATEST() FUNCTION => returns the greatest value of the list of arguments
+--- GREATEST(arg1, agr2, arg3, ...)
+--- We can use it also for string, it choose the greatest one according to ASCII value
+
+SELECT GREATEST(2.34, 4.12, 5, 1.12)
+
+SELECT GREATEST('Gulcan', 'Aladag', 'Coskun', 'Sedat', 'Vedat', 'Bircan')
+
+SELECT ASCII('Gulcan'), ASCII('Aladag'), ASCII('Coskun'), ASCII('Sedat'), ASCII('Vedat'), ASCII('Bircan')
+
+--- LEAST() FUNCTION => returns the smallest value of the list of the arguments
+--- It is reverse to GREATEST(), it turns the smallest ASCII value of the string
+--- LEAST(arg1, arg2, arg3, ...)
+
+SELECT LEAST(1.23, 3.45, 6.56, 1, -9)
+
+--- ASCII respectively => 71, 65, 67, 83, 86, 66
+SELECT ASCII('Gulcan'), ASCII('Aladag'), ASCII('Coskun'), ASCII('Sedat'), ASCII('Vedat'), ASCII('Bircan')
+
+SELECT LEAST('Gulcan', 'Aladag', 'Coskun', 'Sedat', 'Vedat', 'Bircan')
+
+--- MAX() FUNCTION => returns the max value of a set
+
+SELECT salary, (SELECT MAX(salary)  FROM employees) AS max_salary FROM employees order by salary DESC
+
+--- MIN() FUNCTION => returns the min value of a set
+
+SELECT salary, (SELECT MIN(salary)  FROM employees) AS max_salary FROM employees order by salary DESC
+
+--- MOD() FUNCTION => returns the remainder of a number divided by another number
+--- MOD(18, 4) => 18/4 = 4 => remainder => 18-16 =2
+
+SELECT MOD(18, 4)
+
+--- POW() FUNCTION = POWER() FUNCTION returns the value of a number raised to the power of another number
+--- It equals to the POWER() FUNCTION
+--- POW(4, 2) => 4*4 => 4 is the base, 2 is the exponent
+
+SELECT POW(4, 2)
+
+SELECT POWER(4, 3)
+
+--- RAND() FUNCTION => returns a decimal random number >= 0 and <1
+
+SELECT RAND()
+
+--- ROUND() FUNCTION => rounds a number to a specified number of decimal places
+--- ROUND(number, decimals) 
+
+SELECT ROUND(342.6895, 2)
+
+--- SIGN() FUNCTION => returns the sign of the number, if the number > 0 => +1, < 0 => -1, = 0 => 0
+
+SELECT SIGN(-5) 
+
+SELECT SIGN(6)
+
+SELECT SIGN(0)
+
+--- SQRT() FUNCTION => returns the square root of the number 
+
+-- 64 => 8, 27 => 5.2
+SELECT SQRT(64)
+
+SELECT SQRT(27)
+
+--- SUM() FUNCTION => calculates the sum of a set of values
+
+
+SELECT salary, (SELECT SUM(salary) from employees ) as 'SUM()' from employees
+
+--- TRUNCATE() FUNCTION it truncate a number to specified number of decimal placaes
+--- TRUNCATE(number, decimal)
+
+SELECT TRUNCATE(1234.786, 2)
+
+--- 😄 MYSQL DATE FUNCTIONS
+
+--- ADDDATE() FUNCTION => adds a time/date interval to a date and then returns the date
+--- ADDDATE(date, INTERVAL, value addunit) OR ADDDATE(date, days)
+--- ADDUNKIT => the type of interval => second, minute, hour, day, week, year
+
+SELECT first_name, hire_date from employees
+
+SELECT ADDDATE(hire_date, INTERVAL 15 minute) as 'ADDDATE()' FROM employees
+
+SELECT hire_date, ADDDATE(hire_date, INTERVAL 15 day) as 'ADDDATE()' FROM employees
+
+SELECT hire_date, ADDDATE(hire_date, INTERVAL 2 year) as 'ADDDATE()' FROM employees
+
+SELECT hire_date, ADDDATE(hire_date, INTERVAL -2 hour) as 'ADDDATE()' FROM employees
+
+SELECT hire_date, ADDDATE(hire_date, INTERVAL -2 month) as 'ADDDATE()' FROM employees
+
+--- ADDTIME() FUNCTION => adds time or datetime and return it
+
+--- add 2 hours, 10 minutes, 5 second and 3 microseconds => 2:10:5:3 => hour:minute:second
+
+SELECT hire_date, ADDTIME(hire_date, '2:10:5:3') as 'ADDTIME()' FROM employees
+
+--- add 2 day and  2 hours, 10 minutes, 5 second and 3 microseconds => 2:10:5:3 => hour:minute:second
+
+SELECT hire_date, ADDTIME(hire_date, '2 2:10:5:3') as 'ADDTIME()' FROM employees
+
+--- CURDATE() FUNCTION = CURRENTDATE() FUNCTION returns the current date
+--- the date returned as string "YYYY-MM-DD" or numric YYYYMMDD
+
+--- result is string
+SELECT CURDATE()
+
+--- add one day and it returns numeric
+SELECT CURDATE() + 1
+
+SELECT 
