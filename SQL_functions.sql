@@ -115,6 +115,11 @@ SELECT LEFT('Gulcan', 2) AS extract_string
 
 SELECT LEFT('Gulcan COSKUN', 8) AS "EXTRACTING STRING" 
 
+--- Find current date and take the year
+SELECT CURDATE()
+
+SELECT LEFT(CURDATE(), 4)
+
 --- LENGTH => returns the length of a string in bytes
 
 --- LENGTH(string)
@@ -190,3 +195,89 @@ SELECT first_name as NAME, POSITION('AN' IN first_name) AS 'POSITION()' FROM emp
 --- REPEAT(string, number) => the string to repeat, the number of times to repeat the string
 
 SELECT REPEAT('GULCAN | ', 3) AS 'REPEAT()'
+
+SELECT employee_id, REPEAT(CONCAT(employee_id, ' '), 3) AS 'REPEAT()' FROM employees
+
+--- REPLACE() FUNCTION => replaces all occurences of a substring within a string, with a new string => CASE SENSITIVE
+--- REPLACE(string, substring, new_string)
+
+--- replace first a letter with QQQ
+SELECT first_name, REPLACE(first_name, 'a', 'QQQ') AS 'REPLACE' FROM employees
+
+--- REVERSE() FUNCTION => reverses a string and returns the result
+--- REVERSE(string)
+
+SELECT first_name, REVERSE(first_name) AS 'REVERSE()' FROM employees
+
+--- RIGHT() FUNCTION => extracts a number of characters from a string, starting from right
+--- RIGHT(string, number_of_char), we can not use negatif numbers
+
+SELECT RIGHT('Gulcan', 2) AS 'RIGHT()'
+
+SELECT CURRENT_DATE(), RIGHT(CURRENT_DATE(), 4)
+
+SELECT first_name, RIGHT(first_name, 5) AS 'RIGHT()' FROM employees
+
+--- RPAD() FUNCTION => right pads a string with another string to a certain length
+--- RPAD(string, length, rpad_string)
+
+--- Here the length is 3, and the length of the original string is greater than 3 so it extracts just four letters from beginning and returns it
+--- Total length of the new string should be 4, so it does not add Q to the right
+SELECT RPAD('Gulcan', 4, 'Q') AS 'RPAD()'
+
+--- here the total length of the new string is 10, Gulcan is 6 so it will add 4 Q to the right
+SELECT RPAD('Gulcan', 10, 'Q') AS 'RPAD()'
+
+--- RTRIM() FUNCTION => remove trailing spaces from a string (sondaki bosluklar)
+--- It removes the spaces from right not from left and between
+
+SELECT RTRIM('        GULCAN  ALADAG   ') AS 'RTRIM()'
+
+--- SPACE() FUNCTION => return a string with 10 space characters
+--- SPACE(number)
+
+SELECT SPACE(4)
+
+--- STRCMP() FUNCTION => it compares ASCII values of two strings
+--- STRCMP(string1, string2)
+--- If ASCII values of string1 = string2, the function returns 0  | if string1 < string2, the function returns -1  | if string1 > string2, the function returns 1
+
+SELECT first_name, last_name, ASCII(first_name), ASCII(last_name) FROM employees
+
+SELECT first_name, last_name, STRCMP(first_name, last_name) AS 'STRCMP()' FROM employees
+
+--- SUBSTR() FUNCTION => extract a substring from astring
+--- SUBSTR(string, start, length) => required, required, optional
+
+--- If we do not use length parameter, it extract at position 2 and all values from right
+SELECT SUBSTR('Gulcan', 2)
+
+--- If we use length parameter, it extracts until this length value
+
+SELECT SUBSTR('Gulcan', 2, 2)
+
+--- here if you choose the position -1, it will extract just last one, because it extrcts from right, here kength is not important
+SELECT SUBSTR('Gulcan', -1, 3)
+
+SELECT SUBSTR('Gulcan Aladag', -5, 4)
+
+--- SUBSTRING() FUNCTION is equal to SUBSTR() and MID() functions
+--- SUBSTRING(string, start, length)
+
+SELECT CONCAT(first_name, ' ', last_name), SUBSTRING(CONCAT(first_name, ' ', last_name), 3, 3) AS 'SUBSTRING()' FROM employees
+
+SELECT CONCAT(first_name, ' ', last_name), SUBSTRING(CONCAT(first_name, ' ', last_name), -3, 3) AS 'SUBSTRING()' FROM employees
+
+SELECT CONCAT(first_name, ' ', last_name), SUBSTRING(CONCAT(first_name, ' ', last_name), -1, 3) AS 'SUBSTRING()' FROM employees
+
+--- SUBSTRING_INDEX() returns a substring of a string before a specified number of delimiter occurs
+--- SUBSTRING_INDEX(string, delimiter, number)
+
+--- here my delimiter is '.', so I will limit my string at position one that the first '.' appears =>>> result www
+SELECT SUBSTRING_INDEX('www.gmail.com', '.' , 1)
+
+--- result is www.gmail
+SELECT SUBSTRING_INDEX('www.gmail.com', '.' , 2)
+
+--- result www.gmail.
+SELECT SUBSTRING_INDEX('www.gmail.com', 'c' , 1)
