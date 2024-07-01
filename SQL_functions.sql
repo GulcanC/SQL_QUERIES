@@ -424,9 +424,13 @@ SELECT TRUNCATE(1234.786, 2)
 
 --- 😄 MYSQL DATE FUNCTIONS
 
---- ADDDATE() FUNCTION => adds a time/date interval to a date and then returns the date
+--- ADDDATE() FUNCTION = DATE_ADD() FUNTION => adds a time/date interval to a date and then returns the date
 --- ADDDATE(date, INTERVAL, value addunit) OR ADDDATE(date, days)
 --- ADDUNKIT => the type of interval => second, minute, hour, day, week, year
+
+
+--- DATE_ADD() FUNCTION => add a time/date interval to a date and then returns the date
+--- DATE_ADD(date, INTERVAL value addunit)
 
 SELECT first_name, hire_date from employees
 
@@ -440,6 +444,16 @@ SELECT hire_date, ADDDATE(hire_date, INTERVAL -2 hour) as 'ADDDATE()' FROM emplo
 
 SELECT hire_date, ADDDATE(hire_date, INTERVAL -2 month) as 'ADDDATE()' FROM employees
 
+SELECT  hire_date, DATE_ADD(hire_date, INTERVAL 15 minute) as 'DATE_ADD()' FROM employees
+
+SELECT hire_date, DATE_ADD(hire_date, INTERVAL 15 day) as 'DATE_ADD()' FROM employees
+
+SELECT hire_date, DATE_ADD(hire_date, INTERVAL 2 year) as 'DATE_ADD()' FROM employees
+
+SELECT hire_date, DATE_ADD(hire_date, INTERVAL -2 hour) as 'DATE_ADD()' FROM employees
+
+SELECT hire_date, DATE_ADD(hire_date, INTERVAL -2 month) as 'DATE_ADD()' FROM employees
+
 --- ADDTIME() FUNCTION => adds time or datetime and return it
 
 --- add 2 hours, 10 minutes, 5 second and 3 microseconds => 2:10:5:3 => hour:minute:second
@@ -450,7 +464,7 @@ SELECT hire_date, ADDTIME(hire_date, '2:10:5:3') as 'ADDTIME()' FROM employees
 
 SELECT hire_date, ADDTIME(hire_date, '2 2:10:5:3') as 'ADDTIME()' FROM employees
 
---- CURDATE() FUNCTION = CURRENTDATE() FUNCTION returns the current date
+--- CURDATE() FUNCTION = CURRENT_DATE() FUNCTION returns the current date
 --- the date returned as string "YYYY-MM-DD" or numric YYYYMMDD
 
 --- result is string
@@ -459,4 +473,244 @@ SELECT CURDATE()
 --- add one day and it returns numeric
 SELECT CURDATE() + 1
 
-SELECT 
+--- the result is string
+SELECT CURRENT_DATE()
+
+--- add one day the result is numeric
+SELECT CURRENT_DATE() + 1
+
+--- CURRENT_TIME() FUNCTION = CURTIME() FUNCTION => it returns time as string 'HH-MM-SS' or as numeric HHMMSS
+
+--- result is string 16:25:33
+SELECT curtime()
+
+--- result is numeric 162624
+SELECT curtime() + 1
+
+--- result is string 16:25:33
+SELECT current_time()
+
+--- result is numeric 162624
+SELECT current_time() + 1
+
+--- CURRENT_TIMESTAMP() => returns date and time as string "YYYY-MM-DD HH:MM:SS" or as numeric YYYYMMDDHHMMSS
+
+--- result is string 2024-06-26 16:25:33
+SELECT CURRENT_TIMESTAMP()
+
+--- result is numeric 20240626162624
+SELECT CURRENT_TIMESTAMP() + 1
+
+--- DATE() FUNCTION => extracts the date part from a date timestamp
+
+SELECT DATE(CURRENT_TIMESTAMP) AS 'DATE()'
+
+--- DATEDIFF() FUNCTION => returns the number of days between two date values 
+--- DATEDIFF(date1, date2)
+
+SELECT first_name, hire_date from employees
+
+SELECT DATEDIFF((select hire_date  from employees where first_name = 'Stevennn'), (select hire_date from employees where first_name = 'Neena'))
+
+--- DATE_FORMAT() FUNCTION => formats a date as specified
+--- DATE_FORMAT(date, format)
+--- For example => 
+
+--- %H hour (00 to 23)
+--- %h hour (00 to 12)
+--- %i minutes (00 to 59)
+--- %p (AM or PM)
+
+SELECT DATE_FORMAT(CURRENT_TIMESTAMP, "%H %h %i %p")
+
+--- DATE_FORMAT for months 
+
+--- %b(from Jan to Dec)
+--- %c(numeric months from 0 to 12)
+--- %M (month names full january, february, ...)
+
+SELECT DATE_FORMAT(CURRENT_TIMESTAMP, "%b %M %c")
+
+--- DATE_FORMAT for days 
+
+--- %a (from sun to sat)
+--- %D (days numeric, 1st, 2nd, ...)
+--- %d (days numeric 01, 11, 12)
+--- %e (day of the month as numeric 0, 1, 2, 31)
+--- %W weekday full Sunday to Saturday
+--- %w day of the week Sunday = 0, Saturday = 6
+
+SELECT DATE_FORMAT(CURRENT_TIMESTAMP, "%a %D %e %d %W %w")
+
+--- %Y year as a numeric, 4 digit 
+--- %y year as a numeric, 2 digit
+
+SELECT DATE_FORMAT(CURRENT_TIMESTAMP, "%Y %y")
+
+Select hire_date, DATE_FORMAT(hire_date, '%W %M %Y') AS 'FORMAT_DATE()' FROM employees
+
+--- DATE_SUB() FUNCTION subtracts a time/date interval from a date and then returns the date
+--- DATE_SUB(date, INTERVAL value interval)
+
+SELECT CURRENT_TIMESTAMP(), DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL 10 minute)
+
+--- If I use negatif value, it adds
+SELECT CURRENT_TIMESTAMP(), DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL -10 minute)
+
+--- here the time is not specified so it takes the time as 00:00:00
+SELECT hire_date, DATE_SUB(hire_date, INTERVAL 10 minute) AS 'DATE_SUB()' FROM employees
+
+SELECT hire_date, DATE_SUB(hire_date, INTERVAL 2 month) AS 'DATE_SUB()'  FROM employees
+
+SELECT hire_date, DATE_SUB(hire_date, INTERVAL 2 year) AS 'DATE_SUB()'  FROM employees
+
+--- DAY() FUNCTION = DAYOFMONTH() FUNCTION => return the day of the month for a date
+
+SELECT hire_date, day(hire_date) AS 'DAY()' from employees
+
+SELECT hire_date, DAYOFMONTH(hire_date) AS 'DAY()' from employees
+
+--- DAYNAME() FUNCTION => returns the weekday name for a given date 
+
+SELECT hire_date, DAYNAME(hire_date) AS 'DAYNAME()'  FROM employees
+
+--- DAYOFWEEK() FUNCTION => returns the weekday index for a given date 
+--- 1= Sunday, 7=Saturday
+--- DAYOFWEEK(date)
+
+--- DAYOFYEAR() FUNCTION => returns the year for a given date 
+--- from 1 to 366
+--- DAYOFYEAR(date)
+
+SELECT hire_date, DAYOFWEEK(hire_date) AS 'DAYOFWEEK()', DAYNAME(hire_date) AS 'DAYNAME()', DAYOFYEAR(hire_date) AS 'DAYOFYEAR' from employees
+
+--- EXTRACT() FUNCTION => it extracts a part from a given date 
+--- EXTRACT(part FROM date) 
+--- Tu peux extracter the part like WEEK, MINUTE, YEAR_MONTH
+
+SELECT hire_date, EXTRACT(WEEK FROM hire_date) AS 'EXTRACT' from employees
+
+SELECT hire_date, EXTRACT(YEAR FROM hire_date) AS 'EXTRACT' from employees
+
+SELECT hire_date, EXTRACT(DAY FROM hire_date) AS 'EXTRACT' from employees
+
+SELECT hire_date, EXTRACT(YEAR_MONTH FROM hire_date) AS 'EXTRACT' from employees
+
+SELECT hire_date, EXTRACT(day_hour FROM hire_date) AS 'EXTRACT' from employees
+
+--- FROM_DAYS() FUNCTION => returns a date from a numeric date value
+
+--- Then return date from a numeric representation of the day
+
+SELECT FROM_DAYS(699969) 
+
+--- HOUR() FUNCTION => returns the hour part for a given date
+
+--- HOUR(datetime) 
+
+SELECT CURRENT_TIMESTAMP(), HOUR(CURRENT_TIMESTAMP())
+
+--- LAST_DAY() FUNCTION => extract the last day of the month for a date
+
+SELECT (CURRENT_TIMESTAMP) AS 'Cur_date', LAST_DAY(CURRENT_TIMESTAMP) AS 'last_day'
+
+--- LOCALTIME() FUNCTION => it returns the current date and time
+
+--- LOCALTIME() => string
+
+SELECT LOCALTIME() AS 'Local time string'
+
+--- LOCALTIME() => numeric
+
+SELECT LOCALTIME() + 0 AS 'Local time numeric'
+
+--- LOCALTIMESTAMP() => returns the current date and time
+
+--- LOCALTIMESTAMP() string
+SELECT LOCALTIMESTAMP()
+
+--- LOCALTIMESTAMP() numeric
+SELECT LOCALTIMESTAMP() + 0
+
+--- MAKEDATE() FUNCTION => create and return a date based on a year and a number of days 
+--- MAKEDATE(year, day)
+
+SELECT MAKEDATE(2018, 203), MAKEDATE(2023, 45), MAKEDATE(2024, 654)
+
+--- MAKETIME() FUNCTION => create and return a time value based on an hour, minute, and second
+--- MAKETIME(hour, minute, second)
+
+SELECT MAKETIME(16, 1, 56), MAKETIME(13, 45,43)
+
+--- MICROSECOND() => returns the microsecond part of a time/datetime (from 0 to 999999)
+--- MICROSECOND(datetime)
+
+SELECT MICROSECOND('23:59:59.0004')
+
+--- MINUTE() FUNCTION => return the minute part of a datetime
+--- MINUTE(datetime)
+
+SELECT MINUTE("2017-06-20 09:34:00")
+
+--- MONTH() FUNCTION => return the month part of a date
+
+SELECT MONTH("2017-06-20 09:34:00")
+
+--- MONTHNAME() FUNCTION => return the name of the month for a date
+
+SELECT MONTHNAME("2017-06-20 09:34:00")
+
+--- NOW() FUNCTION => return current date and time
+
+SELECT NOW() 
+
+SELECT NOW() + 0
+
+--- PERIOD_ADD() FUNCTION => adds a specified number of months to a period, it returns the result as YYYYMM
+--- PERIOD_ADD(period, number) => period must be numeric YYMM or YYYYMM
+
+SELECT PERIOD_ADD(198409, 1)
+
+--- PERIOD_DIFF() FUNCTION => returns the difference between two periods, the result will be in months
+--- PERIOD_DIFF(period1, period2) => Format must be YYMM *or YYYYMM
+--- The result is month
+
+SELECT PERIOD_DIFF(198409, 197709)
+
+--- QUARTER() => returns the quarter of the year for a given date value (from 1 to 4)
+--- QUARTER(date)
+--- January-March => 1
+--- April-June => 2
+--- July-September => 3
+--- October-December => 4
+
+SELECT QUARTER(CURRENT_DATE), QUARTER(19840915)
+
+--- SECOND() => returns the second part of a time/datetime (from 0 to 59)
+--- SECOND/(datetime)
+
+SELECT SECOND(CURRENT_TIMESTAMP()), SECOND(LOCALTIMESTAMP())
+
+--- SEC_TO_TIME() FUNCTION returns a time value (HH:MM:SS)
+--- SEC_TO_TIME(seconds) => the number of seconds
+
+SELECT SEC_TO_TIME(-876), SEC_TO_TIME(876)
+
+--- STR_TO_DATE() FUNCTION => returns a date based on a string and a format
+--- STR_TO_DATE(string, format) 
+
+SELECT STR_TO_DATE("September 15 1984", '%M %d %Y')
+
+--- SUBDATE() FUNCTION => subtracts a time/date interval from a date and then returns the date
+--- SUBDATE(date, INTERVAL value unit) =>
+--- SUBDATE(date, days) => 
+
+SELECT hire_date, SUBDATE(hire_date, INTERVAL 1 YEAR) AS SUBDATE, SUBDATE(hire_date, INTERVAL 2 MONTH) AS SUBDATE from employees
+
+--- SUBTIME() FUNCTION => subtracts time from  time/datetime expression and then returns the new time/datetime
+--- SUBTIME(datetime, time_interval) => time_interval can be pozitif or negatif values 
+
+--- Substract 3 hours, 3 minutes, 3 seconds, here the time is not certain, so it substracts from 24:00:00   
+SELECT hire_date, SUBTIME(hire_date, '3:3:3' ) AS 'SUBTIME()' FROM employees
+
+
