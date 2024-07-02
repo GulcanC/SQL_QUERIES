@@ -786,3 +786,81 @@ SELECT YEAR('1984-09-15'), YEAR('2016-02-16'), YEAR('2018-12-05')
 --- YEARWEEK(date)
 
 SELECT YEARWEEK('1984-09-15'), YEARWEEK('2016-02-16'), YEARWEEK('2018-12-05')
+
+--- 😄 MYSQL ADVANCE FUNCTIONS
+
+--- CASE FUNCTION
+
+--- CASE
+--- WHEN condition1 THEN result1
+--- WHEN condition2 THEN result2
+--- WHEN condition3 THEN result3
+--- ELSE result
+--- END
+
+SELECT employee_id, CONCAT(first_name, ' ', last_name), 
+CASE 
+WHEN first_name LIKE 'A%' THEN "First name is AAAAA"
+WHEN first_name LIKE 'B%' THEN "First name is BBBBB"
+WHEN first_name LIKE 'S%' THEN "First name is SSSSS"
+ELSE "First name is XXXXX"
+END
+FROM employees
+
+--- CAST FUNCTION => converts a value into the specified datatype
+--- CAST(value AS datatype) => value is to convert, datatype , DATE, DECIMAL, CHAR, TIME
+
+SELECT CAST("Gulcan" AS NCHAR), CAST("19840915" AS DATE), CAST("12,34" AS DECIMAL), CAST("234545" AS TIME)
+
+--- COALESCE() FUNCTION => returns the first non-null value in a list 
+
+SELECT manager_id, COALESCE(manager_id) from employees
+
+--- CONVERT() FUNCTION => converts a value into the specified datatype or character set
+--- CONVERT(value, type) 
+--- CONVERT(value USING charset)
+
+SELECT hire_date, CONVERT(hire_date, DATETIME) from employees
+
+--- CURRENT_USER() => returns the user name and host name for the MYSQL account
+
+SELECT CURRENT_USER()
+
+--- DATABASE() FUNCTION => returns the name of the current database
+
+SELECT DATABASE()
+
+--- IF() FUNCTION
+--- IF(condition, value_if_true, value_if_false)
+
+--- hire_date, asagidaki tarihten buyukse, hire_date al, degilse bir not dus
+SELECT hire_date, IF(hire_date > "1996-12-30", hire_date, "Hire date is not correct!") from employees
+
+--- ISNULL() FUNCTION => returns 1 or 0 depending on whether an expression is NULL
+--- ISNULL(expression) => If expression is NULL returns 1, otherwise it returns 0
+
+SELECT manager_id, ISNULL(manager_id) from employees
+
+--- LAST_INSERT_ID() FUNCTIONS => returns the AUTO_INCREMENT id of the last row that has been inserted or update in a table
+--- LAST_INSERT_ID()(expression)
+
+SELECT employee_id, LAST_INSERT_ID(employee_id) FROM employees
+
+--- NULLIF() FUNCTION => compares two expressions and returns NULL if they are equal, otherwise, the first expression is returned
+--- NULLIF(exp1, exp2)
+
+--- if max_salary is 9000, turn it NULL, if not, turn it the value
+SELECT max_salary, min_salary, NULLIF(max_salary, 9000) from jobs
+
+--- SESSION_USER(), SYSTEM_USER(), USER() => return the current user name and host name for the MYSQL connection
+
+SELECT SESSION_USER()
+
+SELECT SYSTEM_USER()
+
+SELECT USER()
+
+--- VERSION() => returns the current version of the MYSQL database, as a string
+
+SELECT VERSION()
+
