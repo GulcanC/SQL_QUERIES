@@ -713,4 +713,76 @@ SELECT hire_date, SUBDATE(hire_date, INTERVAL 1 YEAR) AS SUBDATE, SUBDATE(hire_d
 --- Substract 3 hours, 3 minutes, 3 seconds, here the time is not certain, so it substracts from 24:00:00   
 SELECT hire_date, SUBTIME(hire_date, '3:3:3' ) AS 'SUBTIME()' FROM employees
 
+---Substract 3 minutes from current date=> if I want to substract 3 minutes, write 300, for 30 minutes 3000
 
+SELECT LOCALTIMESTAMP() AS 'CURRENT TIME', SUBTIME(LOCALTIMESTAMP(), '300') AS 'SUBTIME()'
+
+--- Add 3 hours, 3 minutes, 3 seconds 
+
+SELECT LOCALTIMESTAMP() AS 'CURRENT TIME', SUBTIME(LOCALTIMESTAMP(), '-3:3:3') AS 'SUBTIME()'
+
+--- SYSDATE() FUNCTION => returns the current date and time 
+
+--- string
+SELECT SYSDATE() 
+
+--- numeric
+SELECT SYSDATE() + 0
+
+--- TIME() FUNCTION => extracts time part from a given time/datetime 
+
+SELECT LOCALTIMESTAMP, TIME(LOCALTIMESTAMP()),TIME(CURRENT_TIMESTAMP()), TIME(SYSDATE())
+
+--- TIME_FORMAT() FUNCTION => formats a time by a specified format
+--- TIME_FORMAT(time, format)
+
+
+SELECT SYSDATE(), TIME_FORMAT(SYSDATE(), '%H %i %s %p')
+
+--- TIME_TO_SEC() FUNCTION => converts a time value into seconds
+--- TIME_TO_SEC(time) 
+
+SELECT TIME_TO_SEC(LOCALTIMESTAMP()), TIME_TO_SEC(CURRENT_TIMESTAMP()), TIME_TO_SEC(SYSDATE())
+
+--- TIMEDIFF() FUNCTION => returns the difference between two time/datetime expressions
+--- TIMEDIFF(time1, time2)
+
+--- year month day hour minute second
+SELECT TIMEDIFF(LOCALTIMESTAMP(), '1984-09-15 23:59:59')
+
+--- TIMESTAMP() FUNCTION => returns a datetime value based on a date or datetime value
+--- TIMESTAMP(expression, time)
+
+SELECT TIMESTAMP(CURRENT_DATE)
+
+--- TO_DAYS() FUNCTION => returns the number of days between a date and year 0
+--- TO_DAYS(date) 
+
+SELECT TO_DAYS(CURRENT_TIMESTAMP()), TO_DAYS('1984-09-15'), TO_DAYS('2016-02-16')
+
+--- WEEK() FUNCTION => Return the week number for a date 
+
+--- It returns weeks in that year
+SELECT WEEK(CURRENT_TIMESTAMP()), WEEK('1984-09-15'), WEEK('2023-01-10')
+
+--- WEEKDAY() FUNCTION => returns the weekday number for a given date
+--- 0 = Monday, 1 = Tuesday, ...
+--- WEEKDAY(date)
+--- Sedat Sali, Vedat carsamba, ben cumartesi
+
+SELECT WEEKDAY(LOCALTIMESTAMP), WEEKDAY('2016-02-16'), WEEKDAY('2018-12-05'), WEEKDAY('1984-09-15')
+
+--- WEEKOFYEAR() FUNCTION => returns the week number for a given date => from 0 to 53
+--- WEEKOFYEAR(date)
+
+SELECT WEEKOFYEAR('1984-09-15'), WEEKOFYEAR('2016-02-16'), WEEKOFYEAR('2018-12-05')
+
+--- YEAR() FUNCTION => returns the year part of a given date
+--- YEAR(date)
+
+SELECT YEAR('1984-09-15'), YEAR('2016-02-16'), YEAR('2018-12-05')
+
+--- YEARWEEK() FUNCTION => returns the year and week number => from 0 to 53
+--- YEARWEEK(date)
+
+SELECT YEARWEEK('1984-09-15'), YEARWEEK('2016-02-16'), YEARWEEK('2018-12-05')
